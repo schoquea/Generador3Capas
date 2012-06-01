@@ -102,7 +102,9 @@ Public Class BusinessEntity
         Me.Clase = ("be" & Me.Tabla)
         Dim builder As New StringBuilder
         Dim builder2 As StringBuilder = builder
-        builder2.Append(("using Class " & Me.Clase))
+        builder2.Append("using System;")
+        builder2.AppendLine("")
+        builder2.Append(("public class " & Me.Clase))
         builder2.AppendLine("")
         builder2.AppendLine("{")
         builder2.AppendLine("")
@@ -111,13 +113,13 @@ Public Class BusinessEntity
             Do While enumerator.MoveNext
                 Dim current As ListViewItem = DirectCast(enumerator.Current, ListViewItem)
                 [text] = current.SubItems.Item(0).Text
-                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & current.SubItems.Item(1).Text & "']"))
+                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[ora='" & current.SubItems.Item(1).Text & "']"))
                 If (node Is Nothing) Then
                     str2 = current.SubItems.Item(1).Text
                 Else
-                    str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
+                    str2 = node.ChildNodes.ItemOf(4).FirstChild.Value
                 End If
-                builder2.Append((Microsoft.VisualBasic.Strings.ChrW(9) & "Private " & str2 & " _" & [text]))
+                builder2.Append((Microsoft.VisualBasic.Strings.ChrW(9) & "private " & str2 & " _" & [text]))
                 builder2.Append(";")
                 builder2.AppendLine("")
             Loop
@@ -132,18 +134,18 @@ Public Class BusinessEntity
             Do While enumerator2.MoveNext
                 Dim item2 As ListViewItem = DirectCast(enumerator2.Current, ListViewItem)
                 [text] = item2.SubItems.Item(0).Text
-                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & item2.SubItems.Item(1).Text & "']"))
+                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[ora='" & item2.SubItems.Item(1).Text & "']"))
                 If (node Is Nothing) Then
                     str2 = item2.SubItems.Item(1).Text
                 Else
-                    str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
+                    str2 = node.ChildNodes.ItemOf(4).FirstChild.Value
                 End If
-                builder2.Append((Microsoft.VisualBasic.Strings.ChrW(9) & "Public " & str2 & " " & [text]))
+                builder2.Append((Microsoft.VisualBasic.Strings.ChrW(9) & "public " & str2 & " " & [text]))
                 builder2.AppendLine("")
                 builder2.AppendLine(Microsoft.VisualBasic.Strings.ChrW(9) & "{")
-                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9) & Microsoft.VisualBasic.Strings.ChrW(9) & "Get { " & " Return _" & [text] & "; }")
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9) & Microsoft.VisualBasic.Strings.ChrW(9) & "get { " & " return _" & [text] & "; }")
                 builder2.AppendLine("")
-                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9) & Microsoft.VisualBasic.Strings.ChrW(9) & "Set { " & "_" & [text] & " = value; }")
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9) & Microsoft.VisualBasic.Strings.ChrW(9) & "set { " & "_" & [text] & " = value; }")
                 builder2.AppendLine("")
                 builder2.AppendLine(Microsoft.VisualBasic.Strings.ChrW(9) & "}")
                 builder2.AppendLine("")

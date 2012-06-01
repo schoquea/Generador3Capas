@@ -8,7 +8,6 @@ Imports System.IO
 Public Class frmGenerador
 
     Private isCancelar As Boolean
-    '"Data Source=WIND7X32;Initial Catalog=NEGOCIO;User ID=sa; Password =password"
 
     Private Sub CargarDatos(ByVal sender As Object, ByVal e As EventArgs)
         Me.CrearColumnasListView()
@@ -202,6 +201,7 @@ Public Class frmGenerador
         MostrarCamposPorTabla(sender, e)
     End Sub
 
+    '--------------------------------------
     Private Sub StoreProcedureToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StoreProcedureToolStripMenuItem.Click
         If ((Not Me.tvwBD.SelectedNode Is Nothing) AndAlso (Me.tvwBD.SelectedNode.Level = 1)) Then
 

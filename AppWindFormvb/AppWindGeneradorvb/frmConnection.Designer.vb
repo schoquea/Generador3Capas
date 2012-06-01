@@ -166,7 +166,7 @@ Partial Class frmConnection
         Me.txtDataBase.Name = "txtDataBase"
         Me.txtDataBase.Size = New System.Drawing.Size(166, 20)
         Me.txtDataBase.TabIndex = 12
-        Me.txtDataBase.Text = "xportal"
+        Me.txtDataBase.Text = "Almacen"
         '
         'Label2
         '
