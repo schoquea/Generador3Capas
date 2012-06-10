@@ -434,7 +434,11 @@ Public Class DataAccess
         Me.Instancia = ("o" & Me.Entidad)
         Dim builder As New StringBuilder
         Dim builder2 As StringBuilder = builder
-        builder2.Append(("using be" & Module1.csb.InitialCatalog & ";"))
+        builder2.Append(("using " & Me.Entidad & ";")) 'Module1.csb.InitialCatalog & ";"))
+        builder2.AppendLine()
+        builder2.Append("using System;")
+        builder2.AppendLine()
+        builder2.Append("using System.Collections.Generic;")
         builder2.AppendLine()
         builder2.Append("using System.Data;")
         builder2.AppendLine()
@@ -478,7 +482,12 @@ Public Class DataAccess
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
-        builder2.Append(SystemData & "DataReader drd = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);")
+        builder2.Append("cmd.Parameters.Add(""p_cursor"", OracleType.Cursor).Direction = ParameterDirection.Output;")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(SystemData & "DataReader drd = cmd.ExecuteReader(CommandBehavior.CloseConnection | CommandBehavior.SingleResult);")
         builder2.AppendLine()
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
@@ -499,11 +508,11 @@ Public Class DataAccess
                 builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
                 builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
                     [text] = current.SubItems.Item(0).Text
-                    node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & current.SubItems.Item(1).Text & "']"))
+                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[ora='" & current.SubItems.Item(1).Text & "']"))
                     If (node Is Nothing) Then
                         str2 = current.SubItems.Item(1).Text
                     Else
-                        str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
+                    str2 = node.ChildNodes.ItemOf(4).FirstChild.Value
                     End If
                 builder2.Append("Int32 pos_")
                 builder2.Append([text])
@@ -564,11 +573,11 @@ Public Class DataAccess
                 builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
                 builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
                     [text] = item2.SubItems.Item(0).Text
-                    node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & item2.SubItems.Item(1).Text & "']"))
+                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & item2.SubItems.Item(1).Text & "']"))
                     If (node Is Nothing) Then
                         str2 = item2.SubItems.Item(1).Text
                     Else
-                        str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
+                    str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
                         Select Case str2
                             Case "Byte"
                                 str2 = "Int8"
@@ -635,9 +644,9 @@ Public Class DataAccess
         builder2.AppendLine()
         builder2.AppendLine()
 
-        '------------------------------------------------------------- fAdicionar
+        '------------------------------------------------------------- fInsertar
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
-        builder2.Append("public Int32 fAdicionar(" & SystemData & "Connection con, ")
+        builder2.Append("public Int32 fInsertar(" & SystemData & "Connection con, ")
         builder2.Append(Me.Entidad & " " & Me.Instancia & ")")
         builder2.AppendLine()
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
@@ -674,20 +683,20 @@ Public Class DataAccess
                     builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
                     builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
                     [text] = item3.SubItems.Item(0).Text
-                    node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & item3.SubItems.Item(1).Text & "']"))
+                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[ora='" & item3.SubItems.Item(1).Text & "']"))
                     If (node Is Nothing) Then
                         str2 = item3.SubItems.Item(1).Text
                     Else
-                        str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
+                    str2 = node.ChildNodes.ItemOf(5).FirstChild.Value
                     End If
                     builder2.Append("cmd.Parameters.Add(")
                     builder2.Append(""""c)
                     builder2.Append([text])
                     builder2.Append(""""c)
-                    builder2.Append("," & SystemData & "DbType.")
-                    builder2.Append(item3.SubItems.Item(1).Text)
+                builder2.Append("," & SystemData & "Type.")
+                builder2.Append(str2.ToString())
                     builder2.Append(",")
-                    builder2.Append(item3.SubItems.Item(2).Text)
+                builder2.Append(item3.SubItems.Item(2).Text)
                     builder2.Append(").Value = ")
                     builder2.Append(Me.Instancia)
                     builder2.Append(".")
@@ -759,21 +768,21 @@ Public Class DataAccess
                 builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
                 builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
                 [text] = item4.SubItems.Item(0).Text
-                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & item4.SubItems.Item(1).Text & "']"))
+                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[ora='" & item4.SubItems.Item(1).Text & "']"))
                 If (node Is Nothing) Then
                     str2 = item4.SubItems.Item(1).Text
                 Else
-                    str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
+                    str2 = node.ChildNodes.ItemOf(5).FirstChild.Value
                 End If
                 builder2.Append("cmd.Parameters.Add(")
                 builder2.Append(""""c)
                 builder2.Append([text])
                 builder2.Append(""""c)
-                builder2.Append("," & SystemData & "DbType.")
-                builder2.Append(item4.SubItems.Item(1).Text)
+                builder2.Append("," & SystemData & "Type.")
+                builder2.Append(str2.ToString())
                 builder2.Append(",")
                 builder2.Append(item4.SubItems.Item(2).Text)
-                builder2.Append(").value=")
+                builder2.Append(").Value=")
                 builder2.Append(Me.Instancia)
                 builder2.Append(".")
                 builder2.Append([text])
@@ -840,21 +849,21 @@ Public Class DataAccess
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
         [text] = Me.Lista.Items.Item(0).SubItems.Item(0).Text
-        node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & Me.Lista.Items.Item(0).SubItems.Item(1).Text & "']"))
+        node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[ora='" & Me.Lista.Items.Item(0).SubItems.Item(1).Text & "']"))
         If (node Is Nothing) Then
             str2 = Me.Lista.Items.Item(0).SubItems.Item(1).Text
         Else
-            str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
+            str2 = node.ChildNodes.ItemOf(5).FirstChild.Value
         End If
         builder2.Append("cmd.Parameters.Add(")
         builder2.Append(""""c)
         builder2.Append([text])
         builder2.Append(""""c)
-        builder2.Append("," & SystemData & "DbType.")
-        builder2.Append(Me.Lista.Items.Item(0).SubItems.Item(1).Text)
+        builder2.Append("," & SystemData & "Type.")
+        builder2.Append(str2.ToString())
         builder2.Append(",")
         builder2.Append(Me.Lista.Items.Item(0).SubItems.Item(2).Text)
-        builder2.Append(").value=")
+        builder2.Append(").Value=")
         builder2.Append(Me.Instancia)
         builder2.Append(".")
         builder2.Append([text])
@@ -873,6 +882,183 @@ Public Class DataAccess
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
         builder2.Append("return (lsResultado);")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("}")
+        builder2.AppendLine()
+        builder2.AppendLine()
+        '------------------------------------------------------------- fListarPK
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("public " & Me.Entidad & " fListarPK(" & SystemData & "Connection con,")
+        builder2.Append(Me.Entidad & " " & Me.Instancia & ")")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("{")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Me.Entidad & " l" & Me.Instancia & " = null;")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("using (" & SystemData & "Command cmd = new " & SystemData & "Command(")
+        builder2.Append(""""c)
+        builder2.Append("USP_")
+        builder2.Append(Me.Tabla)
+        builder2.Append("_SEL02")
+        builder2.Append(""""c)
+        builder2.Append(",con))")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("{")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("cmd.CommandType = CommandType.StoredProcedure;")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("cmd.Parameters.Add(""p_cursor"", OracleType.Cursor).Direction = ParameterDirection.Output;")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(SystemData & "DataReader drd = cmd.ExecuteReader(CommandBehavior.CloseConnection | CommandBehavior.SingleResult);")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("if (drd != null)")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("{")
+        Try
+            enumerator = Me.Lista.Items.GetEnumerator
+            Do While enumerator.MoveNext
+                Dim current As ListViewItem = DirectCast(enumerator.Current, ListViewItem)
+                builder2.AppendLine()
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                [text] = current.SubItems.Item(0).Text
+                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[ora='" & current.SubItems.Item(1).Text & "']"))
+                If (node Is Nothing) Then
+                    str2 = current.SubItems.Item(1).Text
+                Else
+                    str2 = node.ChildNodes.ItemOf(4).FirstChild.Value
+                End If
+                builder2.Append("Int32 pos_")
+                builder2.Append([text])
+                builder2.Append(" = drd.GetOrdinal(")
+                builder2.Append(""""c)
+                builder2.Append([text])
+                builder2.Append(""""c)
+                builder2.Append(");")
+            Loop
+        Finally
+            If TypeOf enumerator Is IDisposable Then
+                TryCast(enumerator, IDisposable).Dispose()
+            End If
+        End Try
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("l" & Me.Instancia & " = new " & Me.Entidad & "();")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("while (drd.Read())")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("{")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("l" & Me.Instancia)
+        builder2.Append(" = new ")
+        builder2.Append(Me.Entidad)
+        builder2.Append("();")
+        Try
+            enumerator2 = Me.Lista.Items.GetEnumerator
+            Do While enumerator2.MoveNext
+                Dim item2 As ListViewItem = DirectCast(enumerator2.Current, ListViewItem)
+                builder2.AppendLine()
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                [text] = item2.SubItems.Item(0).Text
+                node = Me.docXml.DocumentElement.SelectSingleNode(("tipo[sql='" & item2.SubItems.Item(1).Text & "']"))
+                If (node Is Nothing) Then
+                    str2 = item2.SubItems.Item(1).Text
+                Else
+                    str2 = node.ChildNodes.ItemOf(2).FirstChild.Value
+                    Select Case str2
+                        Case "Byte"
+                            str2 = "Int8"
+                            Exit Select
+                        Case "Short"
+                            str2 = "Int16"
+                            Exit Select
+                        Case "Integer"
+                            str2 = "Int32"
+                            Exit Select
+                        Case "Long"
+                            str2 = "Int64"
+                            Exit Select
+                    End Select
+                End If
+                builder2.Append("l" & Me.Instancia & ".")
+                builder2.Append([text])
+                builder2.Append("=drd.Get")
+                builder2.Append(str2)
+                builder2.Append("(pos_")
+                builder2.Append([text])
+                builder2.Append(");")
+            Loop
+        Finally
+            If TypeOf enumerator2 Is IDisposable Then
+                TryCast(enumerator2, IDisposable).Dispose()
+            End If
+        End Try
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("}")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("}")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("}")
+        builder2.AppendLine()
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append("return (l")
+        builder2.Append(Me.Instancia)
+        builder2.Append(");")
         builder2.AppendLine()
         builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
         builder2.Append("}")

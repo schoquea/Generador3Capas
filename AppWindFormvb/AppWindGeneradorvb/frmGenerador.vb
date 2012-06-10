@@ -202,7 +202,7 @@ Public Class frmGenerador
     End Sub
 
     '--------------------------------------
-    Private Sub StoreProcedureToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StoreProcedureToolStripMenuItem.Click
+    Private Sub StoreProcedureToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StoreProcedureToolStripMenuItem.Click, StoreProcedureToolStripMenuItem1.Click
         If ((Not Me.tvwBD.SelectedNode Is Nothing) AndAlso (Me.tvwBD.SelectedNode.Level = 1)) Then
 
             Directory.CreateDirectory((Application.StartupPath & "\StoreProcedures"))
@@ -291,5 +291,5 @@ Public Class frmGenerador
     Private Sub ExitToolStripMenuItem_Click_1(sender As System.Object, e As System.EventArgs) Handles ExitToolStripMenuItem.Click
         Me.Close()
     End Sub
-
+ 
 End Class
