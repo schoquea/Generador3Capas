@@ -18,10 +18,8 @@ Public Class StoreProcedures
             Me.CrearSPUpdate()
             Me.CrearSPDelete()
         Else
-            Me.CrearSPSelectCS()
-            Me.CrearSPInsertCS()
-            Me.CrearSPUpdateCS()
-            Me.CrearSPDeleteCS()
+            Me.CrearPKC_HEAD_CS()
+            Me.CrearPKC_BODY_CS()
         End If
 
     End Sub
@@ -262,17 +260,143 @@ Public Class StoreProcedures
     End Sub
 
     '--//-----------------------------ORACLE----------------------------
+    Private Sub CrearPKC_HEAD_CS()
 
-    Private Sub CrearSPDeleteCS()
         Dim str3 As String
+        Dim str2 As String
         Me.SP = ("USP_" & Me.Tabla & "_DEL01")
         Dim builder As New StringBuilder
         Dim builder2 As StringBuilder = builder
+        Dim enumerator As IEnumerator
+        builder2.AppendLine("")
+        builder2.Append("CREATE OR REPLACE PACKAGE PCK_" & Me.Tabla & " IS")
+        builder2.AppendLine("")
+        builder2.Append("TYPE V_CURSOR IS REF CURSOR;")
+        builder2.AppendLine("")
+        builder2.Append("--//DEL01------------------------------------------------------------------------------------")
+        builder2.AppendLine(" ")
+        builder2.AppendLine(" ")
         builder2.Append(("PROCEDURE " & Me.SP))
         builder2.AppendLine()
         Dim text As String = Me.Lista.Items.Item(0).SubItems.Item(0).Text
         Dim str4 As String = Me.Lista.Items.Item(0).SubItems.Item(1).Text
-        Dim str2 As String = Me.Lista.Items.Item(0).SubItems.Item(2).Text
+        str2 = Me.Lista.Items.Item(0).SubItems.Item(2).Text
+        If ((((str4 = "char") Or (str4 = "nchar")) Or (str4 = "varchar")) Or (str4 = "nvarchar")) Then
+            str3 = ("(" & str2 & ")")
+        Else
+            str3 = ""
+        End If
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+        builder2.Append(String.Concat(New String() {"(", str4, " IN P_", [text], str3, ");"}))
+        builder2.AppendLine(" ")
+        builder2.Append("--//INS01------------------------------------------------------------------------------------")
+        builder2.AppendLine(" ")
+        builder2.AppendLine(" ")
+        Me.SP = ("USP_" & Me.Tabla & "_INS01")
+        builder2.Append(("PROCEDURE " & Me.SP))
+        builder2.AppendLine("")
+        builder2.Append("(")
+        builder2.AppendLine("")
+        Try
+            enumerator = Me.Lista.Items.GetEnumerator
+            Do While enumerator.MoveNext
+                Dim flag As Boolean
+                'Dim str3 As String
+                Dim current As ListViewItem = DirectCast(enumerator.Current, ListViewItem)
+                [text] = current.SubItems.Item(0).Text
+                str4 = current.SubItems.Item(1).Text
+                str2 = current.SubItems.Item(2).Text
+                If ((((str4 = "char") Or (str4 = "nchar")) Or (str4 = "varchar")) Or (str4 = "nvarchar")) Then
+                    str3 = ("(" & str2 & ")")
+                Else
+                    str3 = ""
+                End If
+                If Not flag Then
+                    builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                    builder2.Append(String.Concat(New String() {"P_", [text], " IN ", str4, str3, ","}))
+                    builder2.AppendLine("")
+                End If
+            Loop
+        Finally
+            If TypeOf enumerator Is IDisposable Then
+                TryCast(enumerator, IDisposable).Dispose()
+            End If
+        End Try
+        builder.Remove((builder.Length - 3), 3)
+        builder2.AppendLine("")
+        builder2.Append(");")
+        builder2.AppendLine("")
+        builder2.Append("--//SEL01------------------------------------------------------------------------------------")
+        builder2.AppendLine(" ")
+        builder2.AppendLine(" ")
+        Me.SP = ("USP_" & Me.Tabla & "_SEL01")
+        builder2.Append(("PROCEDURE " & Me.SP))
+        builder2.Append("(P_CURSOR IN OUT V_CURSOR)")
+        builder2.AppendLine("")
+        builder2.Append("--//UPD01------------------------------------------------------------------------------------")
+        builder2.AppendLine(" ")
+        builder2.AppendLine(" ")
+        Me.SP = ("USP_" & Me.Tabla & "_UPD01")
+        builder2.Append(("PROCEDURE " & Me.SP))
+        builder2.AppendLine("")
+        builder2.Append("(")
+        builder2.AppendLine("")
+        Try
+            enumerator = Me.Lista.Items.GetEnumerator
+            Do While enumerator.MoveNext
+                Dim current As ListViewItem = DirectCast(enumerator.Current, ListViewItem)
+                [text] = current.SubItems.Item(0).Text
+                str4 = current.SubItems.Item(1).Text
+                str2 = current.SubItems.Item(2).Text
+                If ((((str4 = "char") Or (str4 = "nchar")) Or (str4 = "varchar")) Or (str4 = "nvarchar")) Then
+                    str3 = ("(" & str2 & ")")
+                Else
+                    str3 = ""
+                End If
+                builder2.Append(Microsoft.VisualBasic.Strings.ChrW(9))
+                builder2.Append(String.Concat(New String() {"P_", [text], " IN ", str4, str3, ","}))
+                builder2.AppendLine("")
+            Loop
+        Finally
+            If TypeOf enumerator Is IDisposable Then
+                TryCast(enumerator, IDisposable).Dispose()
+            End If
+        End Try
+        builder.Remove((builder.Length - 3), 3)
+        builder2.AppendLine("")
+        builder2.Append(");")
+        builder2.AppendLine("")
+        builder2.AppendLine("END PKC_" & Me.Tabla & ";")
+        builder2.AppendLine("")
+        builder2.AppendLine("")
+        builder2 = Nothing
+        Using writer As StreamWriter = New StreamWriter(("PKC_" & Me.Tabla & "_HEAD.txt"))
+            writer.Write(builder.ToString)
+        End Using
+    End Sub
+
+    Private Sub CrearPKC_BODY_CS()
+        Dim str3 As String
+        Dim str2 As String
+        Me.SP = ("USP_" & Me.Tabla & "_DEL01")
+        Dim builder As New StringBuilder
+        Dim builder2 As StringBuilder = builder
+
+        builder2.AppendLine("")
+        builder2.AppendLine("CREATE OR REPLACE PACKAGE BODY PKC_" & Me.Tabla & " IS")
+        builder2.AppendLine("")
+        builder2.Append("--//DEL01------------------------------------------------------------------------------------")
+        builder2.AppendLine(" ")
+        builder2.AppendLine(" ")
+        builder2.Append(("PROCEDURE " & Me.SP))
+        builder2.AppendLine()
+        Dim text As String = Me.Lista.Items.Item(0).SubItems.Item(0).Text
+        Dim str4 As String = Me.Lista.Items.Item(0).SubItems.Item(1).Text
+        str2 = Me.Lista.Items.Item(0).SubItems.Item(2).Text
         If ((((str4 = "char") Or (str4 = "nchar")) Or (str4 = "varchar")) Or (str4 = "nvarchar")) Then
             str3 = ("(" & str2 & ")")
         Else
@@ -295,22 +419,15 @@ Public Class StoreProcedures
         builder2.AppendLine(" ")
         builder2.Append("END " & Me.SP & ";")
         builder2.AppendLine(" ")
-        builder2 = Nothing
-        Using writer As StreamWriter = New StreamWriter((Me.SP & ".txt"))
-            writer.Write(builder.ToString)
-        End Using
-    End Sub
-
-    Private Sub CrearSPInsertCS()
-        Dim text As String
+        builder2.Append("--//INS01------------------------------------------------------------------------------------")
+        builder2.AppendLine(" ")
+        builder2.AppendLine(" ")
         Dim flag2 As Boolean
-        Dim str4 As String
+        'Dim str4 As String
         Dim enumerator As IEnumerator
         Dim enumerator2 As IEnumerator
         Dim enumerator3 As IEnumerator
         Me.SP = ("USP_" & Me.Tabla & "_INS01")
-        Dim builder As New StringBuilder
-        Dim builder2 As StringBuilder = builder
         builder2.Append(("PROCEDURE " & Me.SP))
         builder2.AppendLine("")
         builder2.Append("(")
@@ -319,11 +436,11 @@ Public Class StoreProcedures
             enumerator = Me.Lista.Items.GetEnumerator
             Do While enumerator.MoveNext
                 Dim flag As Boolean
-                Dim str3 As String
+                'Dim str3 As String
                 Dim current As ListViewItem = DirectCast(enumerator.Current, ListViewItem)
                 [text] = current.SubItems.Item(0).Text
                 str4 = current.SubItems.Item(1).Text
-                Dim str2 As String = current.SubItems.Item(2).Text
+                str2 = current.SubItems.Item(2).Text
                 If ((((str4 = "char") Or (str4 = "nchar")) Or (str4 = "varchar")) Or (str4 = "nvarchar")) Then
                     str3 = ("(" & str2 & ")")
                 Else
@@ -405,17 +522,10 @@ Public Class StoreProcedures
         builder2.AppendLine("")
         builder2.Append("END " & Me.SP & ";")
         builder2.AppendLine(" ")
-        builder2 = Nothing
-        Using writer As StreamWriter = New StreamWriter((Me.SP & ".txt"))
-            writer.Write(builder.ToString)
-        End Using
-    End Sub
-
-    Private Sub CrearSPSelectCS()
-        Dim enumerator As IEnumerator
+        builder2.Append("--//SEL01------------------------------------------------------------------------------------")
+        builder2.AppendLine(" ")
+        builder2.AppendLine(" ")
         Me.SP = ("USP_" & Me.Tabla & "_SEL01")
-        Dim builder As New StringBuilder
-        Dim builder2 As StringBuilder = builder
         builder2.Append(("PROCEDURE " & Me.SP))
         builder2.Append("(P_CURSOR IN OUT V_CURSOR)")
         builder2.AppendLine("")
@@ -430,11 +540,11 @@ Public Class StoreProcedures
         Try
             enumerator = Me.Lista.Items.GetEnumerator
             Do While enumerator.MoveNext
-                Dim str2 As String
+                'Dim str2 As String
                 Dim current As ListViewItem = DirectCast(enumerator.Current, ListViewItem)
-                Dim text As String = current.SubItems.Item(0).Text
-                Dim str3 As String = current.SubItems.Item(1).Text
-                Dim flag2 As Boolean = Conversions.ToBoolean(current.SubItems.Item(3).Text)
+                text = current.SubItems.Item(0).Text
+                str3 = current.SubItems.Item(1).Text
+                flag2 = Conversions.ToBoolean(current.SubItems.Item(3).Text)
                 Dim flag As Boolean = Conversions.ToBoolean(current.SubItems.Item(4).Text)
                 If flag2 Then
                     str2 = ([text])
@@ -467,18 +577,10 @@ Public Class StoreProcedures
         builder2.AppendLine(" ")
         builder2.Append("END " & Me.SP & ";")
         builder2.AppendLine(" ")
-        builder2 = Nothing
-        Using writer As StreamWriter = New StreamWriter((Me.SP & ".txt"))
-            writer.Write(builder.ToString)
-        End Using
-    End Sub
-
-    Private Sub CrearSPUpdateCS()
-        Dim text As String
-        Dim enumerator As IEnumerator
+        builder2.Append("--//UPD01------------------------------------------------------------------------------------")
+        builder2.AppendLine(" ")
+        builder2.AppendLine(" ")
         Me.SP = ("USP_" & Me.Tabla & "_UPD01")
-        Dim builder As New StringBuilder
-        Dim builder2 As StringBuilder = builder
         builder2.Append(("PROCEDURE " & Me.SP))
         builder2.AppendLine("")
         builder2.Append("(")
@@ -486,11 +588,10 @@ Public Class StoreProcedures
         Try
             enumerator = Me.Lista.Items.GetEnumerator
             Do While enumerator.MoveNext
-                Dim str3 As String
                 Dim current As ListViewItem = DirectCast(enumerator.Current, ListViewItem)
                 [text] = current.SubItems.Item(0).Text
-                Dim str4 As String = current.SubItems.Item(1).Text
-                Dim str2 As String = current.SubItems.Item(2).Text
+                str4 = current.SubItems.Item(1).Text
+                str2 = current.SubItems.Item(2).Text
                 If ((((str4 = "char") Or (str4 = "nchar")) Or (str4 = "varchar")) Or (str4 = "nvarchar")) Then
                     str3 = ("(" & str2 & ")")
                 Else
@@ -539,8 +640,11 @@ Public Class StoreProcedures
         builder2.AppendLine("")
         builder2.Append("END " & Me.SP & ";")
         builder2.AppendLine("")
+        builder2.AppendLine("END PKC_" & Me.Tabla & ";")
+        builder2.AppendLine("")
+        builder2.AppendLine("")
         builder2 = Nothing
-        Using writer As StreamWriter = New StreamWriter((Me.SP & ".txt"))
+        Using writer As StreamWriter = New StreamWriter(("PKC_" & Me.Tabla & "_BODY.txt"))
             writer.Write(builder.ToString)
         End Using
     End Sub
