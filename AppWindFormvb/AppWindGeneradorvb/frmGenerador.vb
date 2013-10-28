@@ -21,7 +21,7 @@ Public Class frmGenerador
                     node.Nodes.Add(reader.GetString(0))
                 Loop
             End Using
-        Else
+        ElseIf Module1.tipo = "ORACLE" Then
             Dim node As TreeNode = Me.tvwBD.Nodes.Add(Module1.csc.UserID)
             Using connection As OracleConnection = New OracleConnection(Module1.csc.ToString)
                 connection.Open()
@@ -40,6 +40,7 @@ Public Class frmGenerador
         lvwTabla.Columns.Add("Nombre", 150, HorizontalAlignment.Left)
         lvwTabla.Columns.Add("Tipo", 60, HorizontalAlignment.Left)
         lvwTabla.Columns.Add("Tama" & Microsoft.VisualBasic.Strings.ChrW(241) & "o", 60, HorizontalAlignment.Left)
+        lvwTabla.Columns.Add("Scale", 60, HorizontalAlignment.Left)
         lvwTabla.Columns.Add("Nulo", 60, HorizontalAlignment.Left)
         lvwTabla.Columns.Add("Identidad", 60, HorizontalAlignment.Left)
         lvwTabla.View = View.Details
@@ -115,72 +116,75 @@ Public Class frmGenerador
             Else
                 Using oraconnection As OracleConnection = New OracleConnection(Module1.csc.ConnectionString)
                     oraconnection.Open()
-                    Dim oracommand As New OracleCommand(("Select * From " & e.Node.Text), oraconnection)
-                    Dim schemaTable As DataTable = oracommand.ExecuteReader.GetSchemaTable
+                    Dim oracommand As New OracleCommand(String.Format("select * from {0} ", e.Node.Text), oraconnection)
+                    Dim schemaTable As DataTable = oracommand.ExecuteReader(CommandBehavior.KeyInfo).GetSchemaTable
                     Dim item As ListViewItem = Nothing
-                    Dim num2 As Integer = (schemaTable.Rows.Count - 1)
-                    Dim i As Integer = 0
-                    Do While (i <= num2)
-                        Dim arguments As Object() = New Object(1 - 1) {}
-                        Dim row As DataRow = schemaTable.Rows.Item(i)
-                        Dim str As String = "ColumnName"
-                        arguments(0) = RuntimeHelpers.GetObjectValue(row.Item(str))
-                        Dim objArray2 As Object() = arguments
-                        Dim copyBack As Boolean() = New Boolean() {True}
-                        'If copyBack(0) Then
-                        '    row.Item(str) = RuntimeHelpers.GetObjectValue(objArray2(0))
-                        'End If
+
+                    Dim str As String = String.Empty
+                    Dim objArray2 As Object()
+                    Dim copyBack As Boolean()
+                    Dim arguments As Object()
+
+                    For Each oRows As DataRow In schemaTable.Rows
+                        arguments = New Object(1 - 1) {}
+                        copyBack = New Boolean() {True}
+
+                        str = "ColumnName"
+                        arguments(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                        objArray2 = arguments
                         item = DirectCast(NewLateBinding.LateGet(Me.lvwTabla.Items, Nothing, "Add", objArray2, Nothing, Nothing, copyBack), ListViewItem)
 
-                        objArray2 = New Object(1 - 1) {}
-                        row = schemaTable.Rows.Item(i)
                         str = "DataType"
-                        objArray2(0) = RuntimeHelpers.GetObjectValue(row.Item(str))
+                        objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
                         objArray2(0) = objArray2(0).Name()
                         arguments = objArray2
-                        copyBack = New Boolean() {True}
                         NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
-                        If copyBack(0) Then
-                            row.Item(str) = RuntimeHelpers.GetObjectValue(arguments(0))
+
+                        str = "NumericPrecision"
+                        If (oRows.Item(str) <> "0") Then
+                            str = "NumericPrecision"
+                            objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                            arguments = objArray2
+                            NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+
+                            str = "NumericScale"
+                            objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                            arguments = objArray2
+                            NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+                        Else
+                            str = "ColumnSize"
+                            objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                            arguments = objArray2
+                            NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+
+                            objArray2(0) = RuntimeHelpers.GetObjectValue(String.Empty)
+                            arguments = objArray2
+                            NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+
                         End If
 
-                        objArray2 = New Object(1 - 1) {}
-                        row = schemaTable.Rows.Item(i)
-                        str = "ColumnSize"
-                        objArray2(0) = RuntimeHelpers.GetObjectValue(row.Item(str))
-                        arguments = objArray2
-                        copyBack = New Boolean() {True}
-                        NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
-                        If copyBack(0) Then
-                            row.Item(str) = RuntimeHelpers.GetObjectValue(arguments(0))
-                        End If
+                        'str = "ColumnSize"
+                        'objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                        'arguments = objArray2
+                        'NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
 
-                        objArray2 = New Object(1 - 1) {}
-                        row = schemaTable.Rows.Item(i)
+                        'objArray2(0) = RuntimeHelpers.GetObjectValue(String.Empty)
+                        'arguments = objArray2
+                        'NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+
                         str = "AllowDBNull"
-                        objArray2(0) = RuntimeHelpers.GetObjectValue(row.Item(str))
+                        objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
                         arguments = objArray2
-                        copyBack = New Boolean() {True}
                         NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
-                        If copyBack(0) Then
-                            row.Item(str) = RuntimeHelpers.GetObjectValue(arguments(0))
-                        End If
 
-                        objArray2 = New Object(1 - 1) {}
-                        row = schemaTable.Rows.Item(i)
                         str = "IsKey"
-                        objArray2(0) = RuntimeHelpers.GetObjectValue(row.Item(str))
-                        objArray2(0) = False 'RuntimeHelpers.GetObjectValue(row.Item(str))
+                        objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
                         arguments = objArray2
-                        copyBack = New Boolean() {True}
                         NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
-                        If copyBack(0) Then
-                            row.Item(str) = RuntimeHelpers.GetObjectValue(arguments(0))
-                        End If
-                        i += 1
-                    Loop
+
+                    Next
                 End Using
-            End If
+        End If
         End If
     End Sub
 

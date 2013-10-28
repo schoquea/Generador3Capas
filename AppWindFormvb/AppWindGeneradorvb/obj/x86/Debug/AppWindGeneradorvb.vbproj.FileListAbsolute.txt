@@ -1,0 +1,12 @@
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\bin\Debug\AppWindGeneradorvb.exe
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\bin\Debug\AppWindGeneradorvb.pdb
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\bin\Debug\AppWindGeneradorvb.xml
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\AppWindGeneradorvb.frmConnection.resources
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\AppWindGeneradorvb.frmGenerador.resources
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\AppWindGeneradorvb.Resources.resources
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\AppWindGeneradorvb.exe
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\AppWindGeneradorvb.xml
+C:\Users\schoquea\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x86\Debug\AppWindGeneradorvb.pdb

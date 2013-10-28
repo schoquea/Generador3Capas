@@ -15,7 +15,7 @@ Public Class frmConnection
         Me.ErrorProvider1.SetError(sender, "")
     End Sub
 
-    Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
+    Private Sub btnSqlAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
             Module1.csb.DataSource = txtServer.Text
 
@@ -43,7 +43,7 @@ Public Class frmConnection
         Me.Close()
     End Sub
 
-    Private Sub orabtnAceptar_Click(sender As System.Object, e As System.EventArgs) Handles orabtnAceptar.Click
+    Private Sub btnOraAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOraAceptar.Click
         Try
             Module1.csc.UserID = oratxtUsuario.Text
             Module1.csc.Password = oratxtPassword.Text
@@ -63,4 +63,5 @@ Public Class frmConnection
             ProjectData.ClearProjectError()
         End Try
     End Sub
+
 End Class

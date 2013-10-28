@@ -38,7 +38,7 @@ Partial Class frmConnection
         Me.txtServer = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnCancelar = New System.Windows.Forms.Button()
-        Me.btnAceptar = New System.Windows.Forms.Button()
+        Me.btnSqlAceptar = New System.Windows.Forms.Button()
         Me.tpOracle = New System.Windows.Forms.TabPage()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -52,7 +52,7 @@ Partial Class frmConnection
         Me.oratxtUsuario = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.orabtnCancelar = New System.Windows.Forms.Button()
-        Me.orabtnAceptar = New System.Windows.Forms.Button()
+        Me.btnOraAceptar = New System.Windows.Forms.Button()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.lblMensaje = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
@@ -80,7 +80,7 @@ Partial Class frmConnection
         Me.tpSQL.Controls.Add(Me.PictureBox1)
         Me.tpSQL.Controls.Add(Me.GroupBox1)
         Me.tpSQL.Controls.Add(Me.btnCancelar)
-        Me.tpSQL.Controls.Add(Me.btnAceptar)
+        Me.tpSQL.Controls.Add(Me.btnSqlAceptar)
         Me.tpSQL.Location = New System.Drawing.Point(4, 22)
         Me.tpSQL.Name = "tpSQL"
         Me.tpSQL.Padding = New System.Windows.Forms.Padding(3)
@@ -166,7 +166,7 @@ Partial Class frmConnection
         Me.txtDataBase.Name = "txtDataBase"
         Me.txtDataBase.Size = New System.Drawing.Size(166, 20)
         Me.txtDataBase.TabIndex = 12
-        Me.txtDataBase.Text = "Almacen"
+        Me.txtDataBase.Text = "SCHOQUEA"
         '
         'Label2
         '
@@ -203,21 +203,21 @@ Partial Class frmConnection
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.UseVisualStyleBackColor = True
         '
-        'btnAceptar
+        'btnSqlAceptar
         '
-        Me.btnAceptar.Location = New System.Drawing.Point(120, 171)
-        Me.btnAceptar.Name = "btnAceptar"
-        Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
-        Me.btnAceptar.TabIndex = 9
-        Me.btnAceptar.Text = "Aceptar"
-        Me.btnAceptar.UseVisualStyleBackColor = True
+        Me.btnSqlAceptar.Location = New System.Drawing.Point(120, 171)
+        Me.btnSqlAceptar.Name = "btnSqlAceptar"
+        Me.btnSqlAceptar.Size = New System.Drawing.Size(75, 23)
+        Me.btnSqlAceptar.TabIndex = 9
+        Me.btnSqlAceptar.Text = "Aceptar"
+        Me.btnSqlAceptar.UseVisualStyleBackColor = True
         '
         'tpOracle
         '
         Me.tpOracle.Controls.Add(Me.PictureBox2)
         Me.tpOracle.Controls.Add(Me.GroupBox2)
         Me.tpOracle.Controls.Add(Me.orabtnCancelar)
-        Me.tpOracle.Controls.Add(Me.orabtnAceptar)
+        Me.tpOracle.Controls.Add(Me.btnOraAceptar)
         Me.tpOracle.Location = New System.Drawing.Point(4, 22)
         Me.tpOracle.Name = "tpOracle"
         Me.tpOracle.Padding = New System.Windows.Forms.Padding(3)
@@ -258,13 +258,13 @@ Partial Class frmConnection
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(14, 81)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(235, 13)
+        Me.Label6.Size = New System.Drawing.Size(161, 13)
         Me.Label6.TabIndex = 17
-        Me.Label6.Text = "Segurity              SQL Server - Windows( Mixed )"
+        Me.Label6.Text = "Segurity              ORACLE - TNS"
         '
         'oratxtConnect
         '
-        Me.oratxtConnect.Location = New System.Drawing.Point(84, 133)
+        Me.oratxtConnect.Location = New System.Drawing.Point(95, 133)
         Me.oratxtConnect.Name = "oratxtConnect"
         Me.oratxtConnect.Size = New System.Drawing.Size(166, 20)
         Me.oratxtConnect.TabIndex = 16
@@ -281,7 +281,7 @@ Partial Class frmConnection
         '
         'oratxtBaseDatos
         '
-        Me.oratxtBaseDatos.Location = New System.Drawing.Point(84, 107)
+        Me.oratxtBaseDatos.Location = New System.Drawing.Point(95, 107)
         Me.oratxtBaseDatos.Name = "oratxtBaseDatos"
         Me.oratxtBaseDatos.Size = New System.Drawing.Size(166, 20)
         Me.oratxtBaseDatos.TabIndex = 14
@@ -298,7 +298,7 @@ Partial Class frmConnection
         '
         'oratxtPassword
         '
-        Me.oratxtPassword.Location = New System.Drawing.Point(84, 45)
+        Me.oratxtPassword.Location = New System.Drawing.Point(95, 45)
         Me.oratxtPassword.Name = "oratxtPassword"
         Me.oratxtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.oratxtPassword.Size = New System.Drawing.Size(166, 20)
@@ -316,11 +316,11 @@ Partial Class frmConnection
         '
         'oratxtUsuario
         '
-        Me.oratxtUsuario.Location = New System.Drawing.Point(84, 19)
+        Me.oratxtUsuario.Location = New System.Drawing.Point(95, 19)
         Me.oratxtUsuario.Name = "oratxtUsuario"
         Me.oratxtUsuario.Size = New System.Drawing.Size(166, 20)
         Me.oratxtUsuario.TabIndex = 10
-        Me.oratxtUsuario.Text = "SIICEX"
+        Me.oratxtUsuario.Text = "SCHOQUEA"
         '
         'Label10
         '
@@ -340,14 +340,14 @@ Partial Class frmConnection
         Me.orabtnCancelar.Text = "Cancelar"
         Me.orabtnCancelar.UseVisualStyleBackColor = True
         '
-        'orabtnAceptar
+        'btnOraAceptar
         '
-        Me.orabtnAceptar.Location = New System.Drawing.Point(121, 170)
-        Me.orabtnAceptar.Name = "orabtnAceptar"
-        Me.orabtnAceptar.Size = New System.Drawing.Size(75, 23)
-        Me.orabtnAceptar.TabIndex = 13
-        Me.orabtnAceptar.Text = "Aceptar"
-        Me.orabtnAceptar.UseVisualStyleBackColor = True
+        Me.btnOraAceptar.Location = New System.Drawing.Point(121, 170)
+        Me.btnOraAceptar.Name = "btnOraAceptar"
+        Me.btnOraAceptar.Size = New System.Drawing.Size(75, 23)
+        Me.btnOraAceptar.TabIndex = 13
+        Me.btnOraAceptar.Text = "Aceptar"
+        Me.btnOraAceptar.UseVisualStyleBackColor = True
         '
         'ErrorProvider1
         '
@@ -389,7 +389,7 @@ Partial Class frmConnection
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents tpSQL As System.Windows.Forms.TabPage
     Friend WithEvents btnCancelar As System.Windows.Forms.Button
-    Friend WithEvents btnAceptar As System.Windows.Forms.Button
+    Friend WithEvents btnSqlAceptar As System.Windows.Forms.Button
     Friend WithEvents tpOracle As System.Windows.Forms.TabPage
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents lblMensaje As System.Windows.Forms.Label
@@ -416,5 +416,5 @@ Partial Class frmConnection
     Friend WithEvents oratxtUsuario As System.Windows.Forms.TextBox
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents orabtnCancelar As System.Windows.Forms.Button
-    Friend WithEvents orabtnAceptar As System.Windows.Forms.Button
+    Friend WithEvents btnOraAceptar As System.Windows.Forms.Button
 End Class
