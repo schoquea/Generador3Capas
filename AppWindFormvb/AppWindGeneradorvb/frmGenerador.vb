@@ -134,26 +134,39 @@ Public Class frmGenerador
                         objArray2 = arguments
                         item = DirectCast(NewLateBinding.LateGet(Me.lvwTabla.Items, Nothing, "Add", objArray2, Nothing, Nothing, copyBack), ListViewItem)
 
-                        str = "DataType"
-                        objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
-                        objArray2(0) = objArray2(0).Name()
-                        arguments = objArray2
-                        NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+                        str = "IsLong"
+                        If (Not RuntimeHelpers.GetObjectValue(oRows.Item(str))) Then
 
-                        str = "NumericPrecision"
-                        If (oRows.Item(str) <> "0") Then
+                            str = "DataType"
+                            objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                            objArray2(0) = objArray2(0).Name()
+                            arguments = objArray2
+                            NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+
                             str = "NumericPrecision"
-                            objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
-                            arguments = objArray2
-                            NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+                            If (oRows.Item(str) <> "0") Then
+                                str = "NumericPrecision"
+                                objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                                arguments = objArray2
+                                NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
 
-                            str = "NumericScale"
-                            objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
-                            arguments = objArray2
-                            NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+                                str = "NumericScale"
+                                objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                                arguments = objArray2
+                                NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+                            Else
+                                str = "ColumnSize"
+                                objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+                                arguments = objArray2
+                                NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+
+                                objArray2(0) = RuntimeHelpers.GetObjectValue(String.Empty)
+                                arguments = objArray2
+                                NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
+                            End If
                         Else
-                            str = "ColumnSize"
-                            objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
+
+                            objArray2(0) = RuntimeHelpers.GetObjectValue("Blob")
                             arguments = objArray2
                             NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
 
@@ -161,16 +174,10 @@ Public Class frmGenerador
                             arguments = objArray2
                             NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
 
+                            objArray2(0) = RuntimeHelpers.GetObjectValue(String.Empty)
+                            arguments = objArray2
+                            NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
                         End If
-
-                        'str = "ColumnSize"
-                        'objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
-                        'arguments = objArray2
-                        'NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
-
-                        'objArray2(0) = RuntimeHelpers.GetObjectValue(String.Empty)
-                        'arguments = objArray2
-                        'NewLateBinding.LateCall(item.SubItems, Nothing, "Add", arguments, Nothing, Nothing, copyBack, True)
 
                         str = "AllowDBNull"
                         objArray2(0) = RuntimeHelpers.GetObjectValue(oRows.Item(str))
