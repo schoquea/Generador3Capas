@@ -21,6 +21,7 @@ Public Class BusinessEntity
         Dim node As XmlNode
         Dim enumerator As IEnumerator
 
+        Dim builder As New StringBuilder
         Me.docXml.Load((Application.StartupPath & "\TiposDatos.xml"))
         Me.Clase = ("be" & Me.Tabla)
         Dim strTipos As String = String.Empty

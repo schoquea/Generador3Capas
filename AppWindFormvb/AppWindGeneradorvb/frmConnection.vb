@@ -64,4 +64,7 @@ Public Class frmConnection
         End Try
     End Sub
 
+    Private Sub btnSqlAceptar_Click_1(sender As Object, e As EventArgs) Handles btnSqlAceptar.Click
+
+    End Sub
 End Class

@@ -1,0 +1,11 @@
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x64\Debug\AppWindGeneradorvb.vbprojAssemblyReference.cache
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x64\Debug\AppWindGeneradorvb.frmConnection.resources
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x64\Debug\AppWindGeneradorvb.frmGenerador.resources
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x64\Debug\AppWindGeneradorvb.Resources.resources
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x64\Debug\AppWindGeneradorvb.vbproj.GenerateResource.cache
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x64\Debug\AppWindGeneradorvb.vbproj.CoreCompileInputs.cache
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\bin\x64\Debug\AppWindGeneradorvb.exe.config
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\bin\x64\Debug\AppWindGeneradorvb.exe
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\bin\x64\Debug\AppWindGeneradorvb.pdb
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x64\Debug\AppWindGeneradorvb.exe
+C:\Users\HANS\Desktop\Generador3Capas\AppWindFormvb\AppWindGeneradorvb\obj\x64\Debug\AppWindGeneradorvb.pdb
